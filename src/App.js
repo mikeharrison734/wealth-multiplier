@@ -4,7 +4,6 @@ import { InputForm } from './components/InputForm.jsx';
 
 function App() {
 
-
   return (
     <div className='wrapper'>
       <Banner />
