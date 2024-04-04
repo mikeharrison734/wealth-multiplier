@@ -40,3 +40,11 @@
 .number-input {
   width: 12rem;
 }
+
+.input-error {
+  color: red;
+}
+
+.input-form {
+  flex-basis: calc(50% - 40px);
+}

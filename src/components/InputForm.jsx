@@ -45,13 +45,28 @@ export function InputForm() {
   function calculateTotalCashAtRetirement(e) {
     e.preventDefault();
 
-    
+    const fd = new FormData(e.target);
 
+    let invalidInput = false;
+    fd.forEach((input) => {
+      if (isNaN(input)) {
+        console.log("not a number");
+        invalidInput = true;
+        return;
+      }
+    });
+
+    if (invalidInput) return;
+
+    console.log("made it to the end");
     calculateTotalCash();
   }
 
   return (
-    <form onSubmit={calculateTotalCashAtRetirement} className="container mt-4 d-flex flex-column align-items-center">
+    <form
+      onSubmit={calculateTotalCashAtRetirement}
+      className="container mt-4 d-flex flex-column align-items-center input-form"
+    >
       <NumberInput
         id="current-investments"
         label="Total Cash Currently Invested:"
@@ -77,15 +92,12 @@ export function InputForm() {
         label="Retirement Age:"
         stateUpdateFn={setRetirementAge}
       />
-      <button
-        type="submit"
-        className="btn btn-primary main-button m-2"
-      >
+      <button type="submit" className="btn btn-primary main-button m-2">
         Calculate
       </button>
-      <h1 className="mt-2">
+      <h3 className="mt-2">
         Total Cash At Retirement: {currencyFormatter.format(totalCash)}
-      </h1>
+      </h3>
     </form>
   );
 }

@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 export default function NumberInput({ label, id, stateUpdateFn }) {
+  const [isError, setIsError] = useState(false);
   //   function isNumberKey(evt) {
   //     let charCode = evt.which ? evt.which : evt.keyCode;
   //     if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
@@ -27,6 +30,19 @@ export default function NumberInput({ label, id, stateUpdateFn }) {
     }
   }
 
+  function validateInput(e) {
+    if (isNaN(e.target.value)) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+  }
+
+  function handleChange(e) {
+    stateUpdateFn(e.target.value);
+    validateInput(e);
+  }
+
   return (
     <div className="d-flex flex-column align-items-center">
       <label htmlFor={id}>{label}</label>
@@ -37,8 +53,9 @@ export default function NumberInput({ label, id, stateUpdateFn }) {
         type="text"
         inputMode="numeric"
         onKeyDown={onKeyDown}
-        onChange={(e) => stateUpdateFn(e.target.value)}
+        onChange={handleChange}
       ></input>
+      {isError && <p className="input-error">Please enter a valid number</p>}
     </div>
   );
 }
