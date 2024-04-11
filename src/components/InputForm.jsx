@@ -65,7 +65,7 @@ export function InputForm() {
   return (
     <form
       onSubmit={calculateTotalCashAtRetirement}
-      className="container mt-4 d-flex flex-column align-items-center input-form"
+      className="mt-4 d-flex flex-column align-items-center input-form"
     >
       <NumberInput
         id="current-investments"

@@ -27,4 +27,13 @@ code {
 .main-button {
   background-color: purple;
   color: white;
+  
+}
+
+.account-container {
+  border: 2px solid lightskyblue;
+  border-radius: 15px;
+  padding: 0px 15px;
+  width: fit-content;
+  min-width: 500px;
 }
