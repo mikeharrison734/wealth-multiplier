@@ -3,6 +3,7 @@ import { Banner } from "./components/Banner.jsx";
 import AccountContainer from "./components/AccountContainer.jsx";
 import AccountContextProvider from "./store/account-context.jsx";
 import Totaliser from "./components/Totaliser.jsx";
+import Ages from "./components/Ages.jsx";
 
 function App() {
   // const [noInputForms, setNoInputForms] = useState([1]);
@@ -18,6 +19,7 @@ function App() {
       {/* <InputForm /> */}
       {/* <InputFormContainer> */}
       <AccountContextProvider>
+        <Ages />
         <AccountContainer />
         <Totaliser />
       </AccountContextProvider>

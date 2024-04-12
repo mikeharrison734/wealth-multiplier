@@ -5,14 +5,14 @@ import { AccountContext } from "../store/account-context";
 import currencyFormatter from "../util/currency";
 
 export default function Account({ accountId }) {
-  const { accounts, updateAccount } = useContext(AccountContext);
+  const { currentAge, retirementAge, accounts, updateAccount } = useContext(AccountContext);
   const account = accounts.find((account) => account.id === accountId);
+
+  console.log(`Account currentAge: ${currentAge}`);
 
   const currentInvestments = account.currentInvestments;
   const monthlyInvestment = account.monthlyInvestment;
   const monthlyInvestmentGrowth = account.monthlyInvestmentGrowth;
-  const currentAge = account.currentAge;
-  const retirementAge = account.retirementAge;
 
   const currentAgeInMonths = currentAge * 12.0;
   const retirementAgeInMonths = retirementAge * 12.0;
@@ -89,22 +89,6 @@ export default function Account({ accountId }) {
           updateAccount({ ...account, monthlyInvestmentGrowth: e.target.value })
         }
         value={account.monthlyInvestmentGrowth}
-      />
-      <NumberInput
-        id="current-age"
-        label="Current Age:"
-        stateUpdateFn={(e) =>
-          updateAccount({ ...account, currentAge: e.target.value })
-        }
-        value={account.currentAge}
-      />
-      <NumberInput
-        id="retirement-age"
-        label="Retirement Age:"
-        stateUpdateFn={(e) =>
-          updateAccount({ ...account, retirementAge: e.target.value })
-        }
-        value={account.retirementAge}
       />
       <button type="submit" className="btn btn-primary main-button m-2">
         Calculate
