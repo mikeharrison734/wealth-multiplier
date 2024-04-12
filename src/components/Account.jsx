@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useContext } from "react";
 import "../index.css";
 import NumberInput from "./NumberInput";
+import { AccountContext } from "../store/account-context";
 
 const currencyFormatter = new Intl.NumberFormat("en-UK", {
   style: "currency",
   currency: "GBP",
 });
 
-export function InputForm() {
-  const [currentInvestments, setCurrentInvestments] = useState(0);
-  const [monthlyInvestment, setMonthlyInvestment] = useState(0);
-  const [monthlyInvestmentGrowth, setMonthlyInvestmentGrowth] = useState(0);
-  const [currentAge, setCurrentAge] = useState(0);
-  const [retirementAge, setRetirementAge] = useState(0);
-  const [totalCash, setTotalCash] = useState(0);
+export default function Account({ accountId }) {
+  const { accounts, updateAccount } = useContext(AccountContext);
+  const account = accounts.find((account) => account.id === accountId);
+
+  console.log(`account.currentInvestments: ${account.currentInvestments}`);
+
+  const currentInvestments = account.currentInvestments;
+  const monthlyInvestment = account.monthlyInvestment;
+  const monthlyInvestmentGrowth = account.monthlyInvestmentGrowth;
+  const currentAge = account.currentAge;
+  const retirementAge = account.retirementAge;
+  const totalCash = account.totalCash;
 
   const currentAgeInMonths = currentAge * 12.0;
   const retirementAgeInMonths = retirementAge * 12.0;
@@ -39,7 +45,8 @@ export function InputForm() {
         parseFloat(currentMonthlyInvestment);
     }
 
-    setTotalCash(tempTotalCash);
+    account.totalCash = tempTotalCash;
+    updateAccount(account);
   }
 
   function calculateTotalCashAtRetirement(e) {
@@ -60,6 +67,8 @@ export function InputForm() {
 
     console.log("made it to the end");
     calculateTotalCash();
+
+    updateAccount({ ...account, totalCashAtRetirement: totalCash });
   }
 
   return (
@@ -70,27 +79,42 @@ export function InputForm() {
       <NumberInput
         id="current-investments"
         label="Total Cash Currently Invested:"
-        stateUpdateFn={setCurrentInvestments}
+        stateUpdateFn={(e) =>
+          updateAccount({ ...account, currentInvestments: e.target.value })
+        }
+        value={account.currentInvestments}
       />
       <NumberInput
         id="monthly-investment"
         label="Monthy Investment:"
-        stateUpdateFn={setMonthlyInvestment}
+        stateUpdateFn={(e) =>
+          updateAccount({ ...account, monthlyInvestment: e.target.value })
+        }
+        value={account.monthlyInvestment}
       />
       <NumberInput
         id="monthly-investment-growth"
         label="Annual growth in monthly investment:"
-        stateUpdateFn={setMonthlyInvestmentGrowth}
+        stateUpdateFn={(e) =>
+          updateAccount({ ...account, monthlyInvestmentGrowth: e.target.value })
+        }
+        value={account.monthlyInvestmentGrowth}
       />
       <NumberInput
         id="current-age"
         label="Current Age:"
-        stateUpdateFn={setCurrentAge}
+        stateUpdateFn={(e) =>
+          updateAccount({ ...account, currentAge: e.target.value })
+        }
+        value={account.currentAge}
       />
       <NumberInput
         id="retirement-age"
         label="Retirement Age:"
-        stateUpdateFn={setRetirementAge}
+        stateUpdateFn={(e) =>
+          updateAccount({ ...account, retirementAge: e.target.value })
+        }
+        value={account.retirementAge}
       />
       <button type="submit" className="btn btn-primary main-button m-2">
         Calculate

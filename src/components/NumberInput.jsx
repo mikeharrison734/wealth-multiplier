@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function NumberInput({ label, id, stateUpdateFn }) {
+export default function NumberInput({ label, id, stateUpdateFn, value }) {
   const [isError, setIsError] = useState(false);
   //   function isNumberKey(evt) {
   //     let charCode = evt.which ? evt.which : evt.keyCode;
@@ -38,8 +38,8 @@ export default function NumberInput({ label, id, stateUpdateFn }) {
     }
   }
 
-  function handleChange(e) {
-    stateUpdateFn(e.target.value);
+  function handleKeyDown(e) {
+    stateUpdateFn(e);
     validateInput(e);
   }
 
@@ -53,7 +53,8 @@ export default function NumberInput({ label, id, stateUpdateFn }) {
         type="text"
         inputMode="numeric"
         onKeyDown={onKeyDown}
-        onChange={handleChange}
+        onChange={(e) => handleKeyDown(e)}
+        value={value}
       ></input>
       {isError && <p className="input-error">Please enter a valid number</p>}
     </div>
