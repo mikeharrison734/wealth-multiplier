@@ -56,3 +56,14 @@ ul {
 #tabs > button {
   font-weight: 700;
 }
+
+.totaliser {
+  width: fit-content;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.open-tab {
+  color: black;
+  background-color: white;
+}

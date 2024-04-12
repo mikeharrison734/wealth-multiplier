@@ -2,24 +2,17 @@ import { useContext } from "react";
 import "../index.css";
 import NumberInput from "./NumberInput";
 import { AccountContext } from "../store/account-context";
-
-const currencyFormatter = new Intl.NumberFormat("en-UK", {
-  style: "currency",
-  currency: "GBP",
-});
+import currencyFormatter from "../util/currency";
 
 export default function Account({ accountId }) {
   const { accounts, updateAccount } = useContext(AccountContext);
   const account = accounts.find((account) => account.id === accountId);
-
-  console.log(`account.currentInvestments: ${account.currentInvestments}`);
 
   const currentInvestments = account.currentInvestments;
   const monthlyInvestment = account.monthlyInvestment;
   const monthlyInvestmentGrowth = account.monthlyInvestmentGrowth;
   const currentAge = account.currentAge;
   const retirementAge = account.retirementAge;
-  const totalCash = account.totalCash;
 
   const currentAgeInMonths = currentAge * 12.0;
   const retirementAgeInMonths = retirementAge * 12.0;
@@ -45,8 +38,7 @@ export default function Account({ accountId }) {
         parseFloat(currentMonthlyInvestment);
     }
 
-    account.totalCash = tempTotalCash;
-    updateAccount(account);
+    account.totalCashAtRetirement = tempTotalCash;
   }
 
   function calculateTotalCashAtRetirement(e) {
@@ -57,7 +49,6 @@ export default function Account({ accountId }) {
     let invalidInput = false;
     fd.forEach((input) => {
       if (isNaN(input)) {
-        console.log("not a number");
         invalidInput = true;
         return;
       }
@@ -65,10 +56,9 @@ export default function Account({ accountId }) {
 
     if (invalidInput) return;
 
-    console.log("made it to the end");
     calculateTotalCash();
 
-    updateAccount({ ...account, totalCashAtRetirement: totalCash });
+    updateAccount({ ...account });
   }
 
   return (
@@ -120,7 +110,7 @@ export default function Account({ accountId }) {
         Calculate
       </button>
       <h3 className="mt-2">
-        Total Cash At Retirement: {currencyFormatter.format(totalCash)}
+        Total Cash At Retirement: {currencyFormatter.format(account.totalCashAtRetirement)}
       </h3>
     </form>
   );

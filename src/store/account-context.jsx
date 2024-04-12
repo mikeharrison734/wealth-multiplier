@@ -10,18 +10,12 @@ function accountReducer(state, action) {
   if (action.type === "ADD_ACCOUNT") {
     const updatedAccounts = [...state.accounts];
 
-    console.log(`updatedAccounts: ${updatedAccounts}`);
-    console.log(updatedAccounts);
-    console.log(updatedAccounts.length);
-
     let lastId;
     if (updatedAccounts.length > 0) {
       lastId = updatedAccounts[updatedAccounts.length - 1].id;
     } else {
       lastId = 0;
     }
-
-    console.log(`lastId: ${lastId}`);
 
     updatedAccounts.push({
       id: lastId + 1,

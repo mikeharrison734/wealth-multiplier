@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { AccountContext } from "../store/account-context";
+import currencyFormatter from "../util/currency";
 
 export default function Totaliser() {
     const { accounts } = useContext(AccountContext);
@@ -7,13 +8,10 @@ export default function Totaliser() {
     let totalCash = 0;
 
     accounts.forEach((account) => {
-        console.log(`total cash at retirement for account with id ${account.id}: ${account.totalCashAtRetirement}`);
-        totalCash += account.totalCashAtRetirement;
+        totalCash += Number(account.totalCashAtRetirement);
     });
 
-    console.log(`total cash in totaliser: ${totalCash}`);
-
-    return <div>
-        {totalCash}
+    return <div className="totaliser">
+        <h1>Total across all accounts: {currencyFormatter.format(totalCash)}</h1>
     </div>
 }

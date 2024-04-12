@@ -10,16 +10,18 @@ export default function AccountContainer() {
     setActiveAccountId(id);
   }
 
-  console.log(`active account id: ${activeAccountId}`);
-
   return (
     <div className="m-auto account-container">
       <div id="tabs" className="d-flex w-100 border-bottom border-white">
         {accounts.map((account) => {
+          let cssClasses = "bg-transparent text-white account-button";
+          if (account.id === activeAccountId) {
+            cssClasses = "account-button open-tab";
+          }
           return (
             <button
               key={account.id}
-              className="bg-transparent text-white account-button"
+              className={cssClasses}
               onClick={() => handleSetActiveAccountId(account.id)}
             >
               Account {account.id}
